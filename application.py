@@ -1,9 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 """
 Datos del equipo:
-* Mariana Aragón
-* Horacio Enriquez
-* Daniela Guerra 
+* Mariana Aragón (if695956)
+* Horacio Enriquez (if696451)
+* Daniela Guerra  (if693394)
 * Rodrigo Hernández Mota (if693056)
 
 
