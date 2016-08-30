@@ -62,11 +62,11 @@ def eval_general(func, nvar, desc):
     '''
     # datos generales
     # número de pobladores y método de cruzamiento
-    npob = 600; met_cruz = 3;
+    npob = 60; met_cruz = 3;
     # bits para discretizar región de búsqueda
-    nbits = 11;
+    nbits = 10;
     # región de búsqueda
-    xmin = -150; delta = 300;
+    xmin = -1; delta = 2;
     # número de padres
     npadres = 20
     
@@ -108,9 +108,9 @@ def eval_general(func, nvar, desc):
     return 1
 
 # %% Probar métodos de cruzamiento
-ind = 1
-cromx = '11111111111'
-cromy = '00000000000'
+ind = 2
+cromx = '10101010101'
+cromy = '11111111111'
 nbits = 11
 
 print('Parents:',cromx,cromy)
@@ -121,7 +121,7 @@ print('Un punto cruce:',a)
 
 # doble punto cruce
 b = ga.do_pc(ind,cromx,cromy,nbits)
-print('Doble punto cruve:',b)
+print('Doble punto cruce:',b)
 
 # cruzamiento uniforme
 c = ga.cr_un(ind,cromx,cromy,nbits)
@@ -140,13 +140,18 @@ print('Cruzamiento aritmético:',d)
 
 # Función de tarea01 ejercicio 01
 print('\n\n---------------------------------------------------')
+print('Tarea ejercicio 00 dos variables: min (func_2v)')
+#eval_general(func_2v,2,-1)
+
+# Función de tarea01 ejercicio 01
+print('\n\n---------------------------------------------------')
 print('Tarea ejercicio 01 tres variables: maximizar (func1_3v)')
-eval_general(func1_3v,3,1)
+#eval_general(func1_3v,3,1)
 
 # Función de tarea01 ejercicio 02
 print('\n\n---------------------------------------------------')
 print('Tarea ejercicio 02 tres variables: minimizar (func2_3v)')
-eval_general(func2_3v,3,-1)
+#eval_general(func2_3v,3,-1)
 
 
 '''
