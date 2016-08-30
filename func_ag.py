@@ -56,6 +56,48 @@ def selecbest(npadres,xpob,xint,ypob,minmax):
     xintpadres = xintpadres.reshape((npadres,1));
     return xpadres,xintpadres
 
+#%% Métodos de cruzamiento
+
+# Un punto cruce 
+def un_pc(ind,cromx,cromy,nbits):
+    crombit = np.random.randint(nbits-1)+1;
+    if ind%2 == 0:
+        cromhijo = cromx[0:crombit]+cromy[crombit:nbits];
+    else:
+        cromhijo = cromy[crombit:nbits]+cromx[0:crombit];
+    return cromhijo
+
+# Doble punto cruce 
+def do_pc(ind,cromx,cromy,nbits):
+    i = np.random.randint(nbits//2-1)+1;
+    j = nbits - (np.random.randint(nbits//2-2)+1);
+    
+    if ind%2 == 0:
+        cromhijo = cromx[0:i]+cromy[i:j]+cromx[j:nbits]
+    else:
+        cromhijo = cromy[0:i]+cromx[i:j]+cromy[j:nbits]
+    return cromhijo
+
+# Cruzamiento uniforme
+def cr_un(ind,cromx,cromy,nbits):
+    cromhijo = ''
+    for i in range(nbits):
+        if np.random.rand(1) > 0.5:
+            cromhijo = cromhijo + cromx[i]
+        else:
+            cromhijo = cromhijo + cromy[i]
+    return cromhijo
+
+# Cruzamiento aritmético 
+def cr_ar(ind,cromx,cromy,nbits):
+    x = int(cromx,2)
+    y = int(cromy,2)
+    z = x + y
+    zbin = np.binary_repr(z,nbits)
+    cromhijo = zbin[0:nbits]
+    return cromhijo
+
+
 #%%
 #Definición de la función de cruzamiento
 def cruzamiento(xint,nhijo,nbits,xmin,xmax,met_cruz):
@@ -73,25 +115,23 @@ def cruzamiento(xint,nhijo,nbits,xmin,xmax,met_cruz):
     if npadre==1:
         print("Precuación: Con un solo padre no se tiene recombinación de genes")
     px = np.tile(np.arange(0,npadre),nhijo//npadre+1);
-    met_cruz = met_cruz + 1
+    
     for ind in range(0,nhijo):
         cromx = np.binary_repr(np.int(xint[px[ind],0]),width=nbits);
         cromy = np.binary_repr(np.int(xint[px[ind+1],0]),width=nbits);
-        crombit = np.random.randint(nbits-1)+1;
-        # Metodo 1 para cruzamiento
-        if ind%2 == 0:
-            cromhijo = cromx[0:crombit]+cromy[crombit:10];
-        else:
-            cromhijo = cromy[crombit:10]+cromx[0:crombit];
         
-        #Metodo 2 para cruzamiento
-        ##
-        
-        #Metodo 3 para cruzamiento
-        ##
-        
-        #Metodo 4 para cruzamiento
-        ##
+        if met_cruz == 1:
+            # Metodo 1 para cruzamiento
+            cromhijo = un_pc(ind,cromx,cromy,nbits)
+        elif met_cruz == 2:
+            #Metodo 2 para cruzamiento
+            cromhijo = do_pc(ind,cromx,cromy,nbits)
+        elif met_cruz == 3:
+            #Metodo 3 para cruzamiento
+            cromhijo = cr_un(ind,cromx,cromy,nbits)
+        elif met_cruz == 4:
+            #Metodo 4 para cruzamiento
+            cromhijo = cr_un(ind,cromx,cromy,nbits)
             
         xinthijo[ind,0]=int(cromhijo,2);
         xhijo[ind,0] = ((xmax-xmin)/(np.double(2**nbits)-1))*xinthijo[ind,0]+xmin;
@@ -121,7 +161,6 @@ def mutacion(xint,nmut,nbits,xmin,xmax):
     return xmut,xint
 
 # %%
-#%%
     
 def gen_algo(xmin, delta, nbits, npob, npadres, nvar, func, desc, met_cruz):
     '''

@@ -104,6 +104,28 @@ def eval_general(func, nvar, desc):
     #plt.show()
     return 1
 
+# %% Probar métodos de cruzamiento
+ind = 1
+cromx = '11111111111'
+cromy = '00000000000'
+nbits = 11
+
+# un punto cruce
+a = ga.un_pc(ind,cromx,cromy,nbits)
+print('Un punto cruce:',a)
+
+# doble punto cruce
+b = ga.do_pc(ind,cromx,cromy,nbits)
+print('Doble punto cruve:',b)
+
+# cruzamiento uniforme
+c = ga.cr_un(ind,cromx,cromy,nbits)
+print('Cruzamiento uniforme:',c)
+
+# cruzamiento aritmético
+d = ga.cr_ar(ind,cromx,cromy,nbits)
+print('Cruzamiento aritmético:',d)
+
 # %% Ejemplos 
 
 # Función de clase
