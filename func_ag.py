@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Scripts that contains the functions used to implement genetic algorithms. 
+Funciones proporcionadas por Rienamm para faciliar la aplicación de los
+algorítmos genéticos:
+- initpob()
+- selectbest()
+- cruzamiento()
+- mutación()
+
+Otras funciones
+
 """
 
 import numpy as np;
+import matplotlib.pyplot as plt;
 
 #%%
 # Definición de la función de inicialización
@@ -49,7 +58,7 @@ def selecbest(npadres,xpob,xint,ypob,minmax):
 
 #%%
 #Definición de la función de cruzamiento
-def cruzamiento(xint,nhijo,nbits,xmin,xmax):
+def cruzamiento(xint,nhijo,nbits,xmin,xmax,met_cruz):
     # Realizacion de nhijo numero de pobladores nuevos a partir de xint
     #
     # xint = cromosoma en decimal
@@ -64,6 +73,7 @@ def cruzamiento(xint,nhijo,nbits,xmin,xmax):
     if npadre==1:
         print("Precuación: Con un solo padre no se tiene recombinación de genes")
     px = np.tile(np.arange(0,npadre),nhijo//npadre+1);
+    met_cruz = met_cruz + 1
     for ind in range(0,nhijo):
         cromx = np.binary_repr(np.int(xint[px[ind],0]),width=nbits);
         cromy = np.binary_repr(np.int(xint[px[ind+1],0]),width=nbits);
@@ -110,19 +120,176 @@ def mutacion(xint,nmut,nbits,xmin,xmax):
     xmut = ((xmax-xmin)/(np.double(2**nbits)-1))*xint+xmin;
     return xmut,xint
 
+# %%
+#%%
+    
+def gen_algo(xmin, delta, nbits, npob, npadres, nvar, func, desc, met_cruz):
+    '''
+    La función gen_algo(...) aplica la metodología de optimización mediante
+    algorítmos genéticos.
+    
+    I N P U T:
+    - xmin: 
+    - delta:
+    - nbits:
+    - npob: 
+    - npadres:
+    - nvar: 
+    - func:
+    - desc:
+    - met_cruz:
+    
+    O U T P U T
+    - 
+    '''
+    
+    # Se determina el límite superior de la región  
+    xmax = xmin+delta;
+    
+    # Se determina el número de hijos
+    nhijos  = npob - npadres;
+    
+    # Número de iteraciones e inicialización del promedio.
+    niter = 1000;
+    yprom = np.zeros(niter);
+    
+    # Inicio de población en varialbe pobl
+    # características: pobl es una lista que contiene listas.
+    # ejemplo: pobl[i][j] accede a la lista j de la variable i+1 en donde
+    # j solamente puede adquirir valores de {0, 1}
+    # e.g. pobl[0][0] regresa el valor real de la variable 1.
+    # e.g. pobl[0][1] regresa el valor entero de la variable 1.
+    pobl = []
+    for i in range(0,nvar):
+        pobl.append(initpob(npob,nbits,xmin,xmax))
+    
+    # Ciclo para comenzar desarrollo y selección de la población 
+    for ind in range(0,niter):
+        # Evaluación del 'performance' de acuerdo al criterio func
+        yp = func(pobl);
+        yprom[ind]=np.mean(yp)
+            
+        # Selección de los individuos más aptos (futuros padres)
+        padr=[]
+        for i in range(0,nvar):
+            padr.append(selecbest(npadres,pobl[i][0],pobl[i][1],yp,desc))
+        
+        # Recombinzación genética de los individuos con mejor desepeño.
+        # (generación de hijos)
+        hijs=[]
+        for i in range(0,nvar):
+            hijs.append(cruzamiento(padr[i][1],nhijos,nbits,xmin,xmax,met_cruz))
+        
+        # Mutación aleatoria cada 'n' generaciones 
+        if ind%10==0:
+            for i in range(0,nvar):
+                hijs[i] = mutacion(hijs[i][1],4,nbits,xmin,xmax)
+        
+        # Eliminar a la población con bajo desempeño. 
+        # Sobreescribir 'padres' e 'hijos'.
+        pobl = []
+        for i in range(0,nvar):
+            aux0 = np.concatenate((padr[i][0],hijs[i][0]))
+            aux1 = np.concatenate((padr[i][1],hijs[i][1]))
+            pobl.append([aux0,aux1])
+        
+    return pobl, yp, yprom
+    
+#%% EJERCICIO 01
+def ex1():
+    # Aplicación con y**2
+        
+    # población y bits... 
+    npob = 20;
+    nbits = 10;
+    
+    # rangpo de búsqueda
+    xmin = 0;
+    xmax = 1023;
+    # padres e hijos
+    npadres = 10;
+    nhijos  = npob - npadres;
+    # número de iteraciones y promedio.
+    niter = 100;
+    yprom = np.zeros(niter);
+    
+    # inicio de población
+    x1p,x1i = initpob(npob,nbits,xmin,xmax)
+    
+    for ind in range(0,niter):
+        # evaluación
+        yp = x1p ** 2;
+        yprom[ind]=np.mean(yp)
+        
+        # selección de los mejores padres (minimizar)
+        x1pad,x1padi = selecbest(npadres,x1p,x1i,yp,1)
+        # generación de hijos
+        x1hij,x1hiji=cruzamiento(x1padi,nhijos,nbits,xmin,xmax)
+        # mutaciones en hijos
+        if ind%10==0:
+            x1hij,x1hiji=mutacion(x1hiji,1,nbits,xmin,xmax)
+        
+        # sobreescribir los padres e hijos
+        x1p[0:npadres,0]=x1pad[:,0];
+        x1p[npadres:npob,0]=x1hij[:,0];
+        x1i[0:npadres,0]=x1padi[:,0];
+        x1i[npadres:npob,0]=x1hiji[:,0];
+        plt.plot(yprom)
+        plt.show()
+        return 1
 
 
-
-
-
-
-
-
-
-
-
-
-
+#%% EJERCICIO 02
+# Aplicación para más de una variable
+def ex2():
+    
+    # población y bits... 
+    npob = 20;
+    nbits = 10;
+    
+    # rangpo de búsqueda
+    xmin = 0;
+    xmax = 1023;
+    # padres e hijos
+    npadres = 10;
+    nhijos  = npob - npadres;
+    # número de iteraciones y promedio.
+    niter = 100;
+    yprom = np.zeros(niter);
+    
+    # inicio de población
+    x1p,x1i = initpob(npob,nbits,xmin,xmax)
+    x2p,x2i = initpob(npob,nbits,xmin,xmax)
+    
+    for ind in range(0,niter):
+        # evaluación
+        yp = x1p ** 2 + x2p ** 2;
+        yprom[ind]=np.mean(yp)
+        
+        # selección de los mejores padres (minimizar)
+        x1pad,x1padi = selecbest(npadres,x1p,x1i,yp,1)
+        x2pad,x2padi = selecbest(npadres,x2p,x2i,yp,1)
+        # generación de hijos
+        x1hij,x1hiji=cruzamiento(x1padi,nhijos,nbits,xmin,xmax)
+        x2hij,x2hiji=cruzamiento(x2padi,nhijos,nbits,xmin,xmax)
+        # mutaciones en hijos
+        if ind%10==0:
+            x1hij,x1hiji=mutacion(x1hiji,1,nbits,xmin,xmax)
+            x2hij,x2hiji=mutacion(x2hiji,1,nbits,xmin,xmax)
+        
+        # sobreescribir los padres e hijos
+        x1p[0:npadres,0]=x1pad[:,0];
+        x1p[npadres:npob,0]=x1hij[:,0];
+        x1i[0:npadres,0]=x1padi[:,0];
+        x1i[npadres:npob,0]=x1hiji[:,0];
+        x2p[0:npadres,0]=x2pad[:,0];
+        x2p[npadres:npob,0]=x2hij[:,0];
+        x2i[0:npadres,0]=x2padi[:,0];
+        x2i[npadres:npob,0]=x2hiji[:,0];
     
     
     
+    plt.plot(yprom)
+    plt.show()
+    return 1
+
