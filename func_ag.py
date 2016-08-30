@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
 """
+Datos del equipo:
+* Mariana Aragón
+* Horacio Enriquez
+* Daniela Guerra 
+* Rodrigo Hernández Mota (if693056)
+
 Funciones proporcionadas por Rienamm para faciliar la aplicación de los
 algorítmos genéticos:
-- initpob()
-- selectbest()
-- cruzamiento()
-- mutación()
+* initpob()
+* selectbest()
+* cruzamiento()
+* mutación()
 
-Otras funciones
+Otras funciones:
+* funciones de métodos de cruzamiento (un_pc, do_pc, cr_un, cr_ar)
+* gen_algo()
 
 """
 

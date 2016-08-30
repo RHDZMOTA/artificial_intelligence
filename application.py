@@ -1,8 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
 """
-Created on Thu Aug 25 09:22:29 2016
+Datos del equipo:
+* Mariana Aragón
+* Horacio Enriquez
+* Daniela Guerra 
+* Rodrigo Hernández Mota (if693056)
 
-@author: Rodrigo Hernández Mota (if693056)
 
 Instrucciones:
 * Poner en el mismo directorio el archivo llamado 'func_ag.py'
@@ -59,7 +62,7 @@ def eval_general(func, nvar, desc):
     '''
     # datos generales
     # número de pobladores y método de cruzamiento
-    npob = 600; met_cruz = 1;
+    npob = 600; met_cruz = 3;
     # bits para discretizar región de búsqueda
     nbits = 11;
     # región de búsqueda
@@ -109,6 +112,8 @@ ind = 1
 cromx = '11111111111'
 cromy = '00000000000'
 nbits = 11
+
+print('Parents:',cromx,cromy)
 
 # un punto cruce
 a = ga.un_pc(ind,cromx,cromy,nbits)
