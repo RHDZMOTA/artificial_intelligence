@@ -239,7 +239,8 @@ def gen_algo(xmin, delta, nbits, npob, npadres, nvar, func, desc, met_cruz):
             aux0 = np.concatenate((padr[i][0],hijs[i][0]))
             aux1 = np.concatenate((padr[i][1],hijs[i][1]))
             pobl.append([aux0,aux1])
-        
+    
+    yp = func(pobl);    
     return pobl, yp, yprom
     
 #%% EJERCICIO 01

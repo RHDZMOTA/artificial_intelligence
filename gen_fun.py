@@ -5,6 +5,15 @@
 
 import numpy as np
 
+# Función y = x^1
+def func_1v(x):
+    # determine if x is data for gen.algo (==2) or gen.pso
+    a = np.shape(x[0])
+    if len(a) > 1: X = [x[i][0] for i in range(len(x))]
+    else: X = x
+    # evaluate and return 
+    return X[0] ** 2
+
 # Función y = x1^2 + x2^2 
 def func_2v(x):
     # determine if x is data for gen.algo (==2) or gen.pso
