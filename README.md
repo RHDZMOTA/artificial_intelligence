@@ -1,34 +1,36 @@
-#Genetic Algorithms
+# Artificial Intelligence 
 
-Algorítmo genético para solucionar problemas de optimización. 
+Author: Rodrigo Hernández Mota
 
-Instituto Tecnológico y de Estudios Superiores de Occidente (ITESO)
-Ingeniería Financiera
-
-Materia: _Métodos de Inteligencia Artificial_
-
-Equipo:
-* Mariana Aragón
-* Horacio Enriquez
+Colaborators:
+* Mariana Aragón 
+* Horacio Enríquez 
 * Daniela Guerra Alcalá
-* Rodrigo Hernández Mota (if 693056)
 
-##Requisitos
-1. Tener Anaconda instalado (python 3.5, numpy, matplotlib, spyder, pandas)
-2. ...
- 
+## Requirements 
+1. Download anaconda to install python3 (spyder, numply, matplotlib, pandas)
+2. 
 
-##Instrucciones
-1. Git clone o descargar scripts.
-2. En caso de descarga, poner en un mismo 'directorio'
-3. Correr y mejorar código. 
- 
-##Scripts
-Breve descripción de los archivos contenidos en este repositorio. 
+## General instructions
+1. Git clone https://github.com/rhdzmota/artificial_intelligence
+2. 
 
-* **func_ag.py** contiene todas las funciones necesarias para realizar el algoritmo genético.
-* **application.py** contiene la aplicación de las funciones contenidas en *func_ag.py*.
-* 
+## Scripts
+* **func_ag.py**: genetic algorithms function
+* **gen_fun.py**: general function to test algorithms
+* **application.py**: generic functions to test gen_fun.py
 
+##Genetic Algorithms
 
+**Description ** 
+Solve optimization problems by replicating the reproductive procedure in nature. 
+
+[add info.]
+
+## Particle Swarm Optimization
+
+**Description **
+Solve opimization problems by replicating the behaviour of a ... in search of food/better resources. 
+
+[add info.]
 

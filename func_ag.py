@@ -271,7 +271,7 @@ def ex1():
         # selección de los mejores padres (minimizar)
         x1pad,x1padi = selecbest(npadres,x1p,x1i,yp,1)
         # generación de hijos
-        x1hij,x1hiji=cruzamiento(x1padi,nhijos,nbits,xmin,xmax)
+        x1hij,x1hiji=cruzamiento(x1padi,nhijos,nbits,xmin,xmax,1)
         # mutaciones en hijos
         if ind%10==0:
             x1hij,x1hiji=mutacion(x1hiji,1,nbits,xmin,xmax)
@@ -317,8 +317,8 @@ def ex2():
         x1pad,x1padi = selecbest(npadres,x1p,x1i,yp,1)
         x2pad,x2padi = selecbest(npadres,x2p,x2i,yp,1)
         # generación de hijos
-        x1hij,x1hiji=cruzamiento(x1padi,nhijos,nbits,xmin,xmax)
-        x2hij,x2hiji=cruzamiento(x2padi,nhijos,nbits,xmin,xmax)
+        x1hij,x1hiji=cruzamiento(x1padi,nhijos,nbits,xmin,xmax,1)
+        x2hij,x2hiji=cruzamiento(x2padi,nhijos,nbits,xmin,xmax,1)
         # mutaciones en hijos
         if ind%10==0:
             x1hij,x1hiji=mutacion(x1hiji,1,nbits,xmin,xmax)

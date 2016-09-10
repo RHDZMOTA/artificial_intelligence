@@ -15,51 +15,17 @@ Instrucciones:
 import numpy as np
 import matplotlib.pyplot as plt
 import func_ag as ga
-
-# %% Funciones disponibles...
-
-# Función y = x1^2 + x2^2 
-def func_2v(X):
-    yp = X[0][0] ** 2 + X[1][0] ** 2;
-    return yp
-    
-# Función  y = -x1*(10+100*x1) - x2*(5+40*x1) - x3*(5+50*x3)
-def func1_3v(X):
-    yp = -X[0][0]*(10+100*X[0][0]) - X[1][0]*(5+40*X[1][0]) - X[2][0]*(5+50*X[2][0]);
-    return yp
-    
-# Función y = ...
-def func2_3v(X):
-    yp = X[0][0]**2-2*X[0][0]+1-10*np.cos(X[0][0]-1)+X[1][0]**2+X[1][0]+0.25-10*np.cos(X[0][0]+0.5)+X[2][0]**2-10*np.cos(X[2][0])
-    return yp
-
-# Función de Rast...
-def func_rast(X):
-    for i in range(len(X)):
-        z = 10+ X[i][0]**2-10*np.cos(5*X[i][0])
-    return z
-
-# Función de Ackley
-def func_ackley(X):
-    for i in range(len(X)):
-        z = -10*np.exp(-np.sqrt(X[i][0]**2)) - np.exp(np.cos(5*X[i][0]))
-    return z
-
-# Función de Rosen
-def func_rosen(X):
-    for i in range(len(X)-1):
-        z = 100 * (X[i+1][0]-X[i][0])**2+(1-X[i+1][0])**2
-    return z
-
-
+import func_pso as pso
+import gen_fun as f
 
 # %% Función para evaluación general 
 
-def eval_general(func, nvar, desc):
+def gaaeval_general(func, nvar, desc):
     '''
-    Evaluación genérica de funciones...
-    
+    Evaluación genérica de funciones para algorítmo genético
     '''
+    print('GENETIC ALGO. OPTIM. \n')
+
     # datos generales
     # número de pobladores y método de cruzamiento
     npob = 60; met_cruz = 3;
@@ -91,67 +57,67 @@ def eval_general(func, nvar, desc):
     # to print results
     if desc == 1:
         valu = max(results.keys())
-        indx = list(results.keys()).index(valu)
-        xval = list(results.values())[indx]
-        print('The max. value found was: ', valu)
-        print('Region: ',xval)
-    else: 
+        minmax = 'max.'
+    else:
         valu = min(results.keys())
-        indx = list(results.keys()).index(valu)
-        xval = list(results.values())[indx]
-        print('The min. value found was: ', valu)
-        print('Region: ',xval)
-        
+        minmax = 'min'
+
+    indx = list(results.keys()).index(valu)
+    xval = list(results.values())[indx]
+    
+    rs = '\n'
+    for i in range(len(xval)):
+        aux = '    x'+str(i)+' = '+str(xval[i][0])+'\n'
+        rs = rs + aux
+    
+    print('The',minmax,'value found was:', valu,'in the region {x0,x1,...,xn} : \n',rs)
+    
     # plot resutls.
     #plt.plot(yprom)
     #plt.show()
     return 1
 
-# %% Probar métodos de cruzamiento
-ind = 2
-cromx = '10101010101'
-cromy = '11111111111'
-nbits = 11
+#%% PSO
 
-print('Parents:',cromx,cromy)
-
-# un punto cruce
-a = ga.un_pc(ind,cromx,cromy,nbits)
-print('Un punto cruce:',a)
-
-# doble punto cruce
-b = ga.do_pc(ind,cromx,cromy,nbits)
-print('Doble punto cruce:',b)
-
-# cruzamiento uniforme
-c = ga.cr_un(ind,cromx,cromy,nbits)
-print('Cruzamiento uniforme:',c)
-
-# cruzamiento aritmético
-d = ga.cr_ar(ind,cromx,cromy,nbits)
-print('Cruzamiento aritmético:',d)
-
+def psoeval_general(func, nvar, desc):
+    print('PSO METHOD \n')    
+    # número de partículas
+    npart = 1000
+    # parámetros de movimiento
+    c1 = 0.01; c2 = 0.01
+    # evalucación y slgorítmos pso
+    prtl_mg, fpg, fp, prtl = pso.algo_pso(npart, c1, c2, func, nvar, desc)
+    
+    # mostrar resultados. 
+    st = 'mínimo'
+    if desc == 1: st = 'máximo'
+    string = '\n'
+    for i in range(nvar):
+        string = string+'    x'+str(i)+' = '+str(prtl_mg[i])+'\n'
+        
+    
+    print('El',st,'econtrado es de',fpg, 'en la región {x0,x1,...,xn} :',string)
+    return 1
+    
 # %% Ejemplos 
 
-# Función de clase
-#print('\n\n---------------------------------------------------')
-#print('Función 01 vista en clase de dos variables (func_2v)')
-#eval_general(func_2v,2,-1)
+# Función de cuadrática de dos variables
+print('\n\n---------------------------------------------------')
+print('Tarea ejercicio 00 dos variables: min (func_2v)\n')
+psoeval_general(f.func_2v,2,-1)
+gaaeval_general(f.func_2v,2,-1)
 
 # Función de tarea01 ejercicio 01
 print('\n\n---------------------------------------------------')
-print('Tarea ejercicio 00 dos variables: min (func_2v)')
-#eval_general(func_2v,2,-1)
-
-# Función de tarea01 ejercicio 01
-print('\n\n---------------------------------------------------')
-print('Tarea ejercicio 01 tres variables: maximizar (func1_3v)')
-#eval_general(func1_3v,3,1)
+print('Tarea ejercicio 01 tres variables: maximizar (func1_3v)\n')
+psoeval_general(f.func1_3v,3,1)
+gaaeval_general(f.func1_3v,3,1)
 
 # Función de tarea01 ejercicio 02
 print('\n\n---------------------------------------------------')
-print('Tarea ejercicio 02 tres variables: minimizar (func2_3v)')
-#eval_general(func2_3v,3,-1)
+print('Tarea ejercicio 02 tres variables: minimizar (func2_3v)\n')
+psoeval_general(f.func2_3v,3,-1)
+gaaeval_general(f.func2_3v,3,-1)
 
 
 '''
