@@ -132,16 +132,22 @@ def psoeval_general(func, nvar, desc):
 
 # Función de cuadrática de dos variables
 print('\n\n---------------------------------------------------')
-print('Tarea ejercicio 00 una variables: min (func_2v)\n')
-psoeval_general(f.func_1v,1,-1)
-gaaeval_general(f.func_1v,1,-1)
+print('Minimizar la función: func_1v de 1 variable\n')
+#psoeval_general(f.func_1v,1,-1)
+#gaaeval_general(f.func_1v,1,-1)
 
 
 # Función de cuadrática de dos variables
 print('\n\n---------------------------------------------------')
-print('Tarea ejercicio 00 dos variables: min (func_2v)\n')
-psoeval_general(f.func_2v,2,-1)
-gaaeval_general(f.func_2v,2,-1)
+print('Minimizar la función: func_2v de 2 variables\n')
+#psoeval_general(f.func_2v,2,-1)
+#gaaeval_general(f.func_2v,2,-1)
+
+# Función de cuadrática de dos variables
+print('\n\n---------------------------------------------------')
+print('Optimizar función de markowitz para 3 activos\n')
+psoeval_general(f.markowitz,3,-1)
+gaaeval_general(f.markowitz,3,-1)
 
 '''
 # Función de tarea01 ejercicio 01

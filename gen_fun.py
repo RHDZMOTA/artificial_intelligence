@@ -75,3 +75,47 @@ def func_rosen(x):
     for i in range(len(X)-1):
         u = 100 * (X[i+1]-X[i])**2+(1-X[i+1])**2
     return u
+
+# Markowitz function
+def markowitz_1(X):
+    '''
+    function that applies the markowitz portfolio simulation
+    '''
+    # download data and calc. parameters
+    import findata as fd
+    acc = ["GRUMAB.MX","BIMBOA.MX","SORIANAB.MX"]
+    price, returns = fd.download(acc)
+    pa, rst, cst = fd.parameters(price, returns)
+    
+    # use part as matrix
+    X = np.transpose(np.matrix(X))
+    
+    # determines the returns...  
+    rp = X * np.transpose(rst)
+    
+    # determines the risk (var)
+    riskp = X*cst*np.transpose(X)
+    n,t = np.shape(X)
+    te = np.arange(0,n)
+    riskp = np.transpose(riskp[te,te])
+    
+
+    return np.array(rp), np.array(riskp)
+
+def markowitz_2(rp, riskp):
+    '''
+    This function takes the two results of markowitz and...
+    '''
+    z = rp + riskp
+    return z
+
+def markowitz(x):
+    # determine if x is data for gen.algo (==2) or gen.pso
+    a = np.shape(x[0])
+    if len(a) > 1: X = [x[i][0] for i in range(len(x))]
+    else: X = x
+    
+    rp, riskp = markowitz_1(X)
+    z = markowitz_2(rp, riskp)
+    
+    return z
