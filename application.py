@@ -32,7 +32,7 @@ def gaaeval_general(func, nvar, desc):
     # bits para discretizar región de búsqueda
     nbits = 10;
     # región de búsqueda
-    xmin = -1; delta = 2;
+    xmin = -100; delta = 100;
     # número de padres
     npadres = 20
     

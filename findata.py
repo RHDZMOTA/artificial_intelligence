@@ -12,7 +12,7 @@ import pandas as pd
 import pandas.io.data as wb
 import matplotlib.pyplot as plt
 import datetime as dt
-
+import os.path
 
 def download(acc):
     '''
@@ -26,9 +26,27 @@ def download(acc):
     start = dt.datetime(2016,1,1)
     end = dt.datetime.now()
     
-    # read data...
-    stocks = [wb.DataReader(i,'yahoo',start,end) for i in acc]
-    
+    # determine id...
+    lid = []
+    lid.append(dt.date.today())
+    fid = str(lid[0])
+
+    req_do = 0
+    stocks = []
+    for i in acc:        
+        if os.path.isfile(i+fid+'.pkl'):
+            stocks.append(pd.read_pickle(i+fid+'.pkl'))
+        else:
+            req_do = 1
+    if req_do == 1:
+        # read data...
+        stocks = [wb.DataReader(i,'yahoo',start,end) for i in acc]
+        # save data...
+        j = 0 
+        for i in acc:
+            stocks[j].to_pickle(i+fid+'.pkl')
+            j += 1
+
     # get prices and calc returns  
     price = pd.DataFrame()
     returns = pd.DataFrame()

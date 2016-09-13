@@ -81,12 +81,21 @@ def markowitz_1(X):
     '''
     function that applies the markowitz portfolio simulation
     '''
+
     # download data and calc. parameters
     import findata as fd
     acc = ["GRUMAB.MX","BIMBOA.MX","SORIANAB.MX"]
     price, returns = fd.download(acc)
     pa, rst, cst = fd.parameters(price, returns)
     
+    # conditional for genetic algo... 
+    aa = np.shape(X[0])
+    if len(aa) > 1:
+        aux = X[0]
+        for i in range(1,len(X)):
+            aux = np.hstack([aux,X[i]])
+        X = np.transpose(aux)
+        
     # use part as matrix
     X = np.transpose(np.matrix(X))
     
@@ -106,7 +115,7 @@ def markowitz_2(rp, riskp):
     '''
     This function takes the two results of markowitz and...
     '''
-    z = rp + riskp
+    z = -rp + riskp
     return z
 
 def markowitz(x):
