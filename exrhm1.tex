@@ -45,7 +45,7 @@ $$
 Debido a que $1/m < 4/m$ entonces para asegurar que el algor\'itmo pueda buscar en (al menos) en el intervalo deseado; se calcula $m$ de la siguente forma:
 
 $$
-m = \frac{4}{\Delta_2} = \frac{4}{2.44x10^{-4}} = 16393.4426
+m = 4 * \Delta_2^{-1} = \frac{4}{2.44x10^{-4}} = 16393.4426
 $$
 
 Despejando $n$ y sustituyendo $m$ en $2^n - 1 = m$ tenemos:
@@ -61,7 +61,28 @@ n = 14
 $$
 
 \section{III}
+Sea la $F$ la función por partes:
 
+$$
+\begin{displaymath}
+  F(x_1,x_2) = \left\{
+    \begin{array}{lr}
+      x_1^2 + x_2^2 & : x_1 + x_2 \geq 1 \\
+      -10(x_1 + x_2)+20 & : x_1 + x_2 < 1
+    \end{array}
+  \right.
+\end{displaymath}
+$$
+
+Considerando la reestricc\'on de ${x_1,x_2} > 1$ entonces el valor de $X$  que minimiza $F$ es:
+
+$$
+\begin{array}{ll}
+x_1 = 0.4983 \\
+x_2 = 0.5101 \\
+\end{array}
+
+Generando un $F = 0.500$. 
 
 \section{IV}
 
