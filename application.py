@@ -14,7 +14,7 @@ Instrucciones:
 
 import numpy as np
 import matplotlib.pyplot as plt
-import func_ag as ga
+#import func_ag as ga
 import func_pso as pso
 import gen_fun as f
 
@@ -128,45 +128,12 @@ def psoeval_general(func, nvar, desc):
         
     return 1
     
-# %% Ejemplos 
+# %% aplicación
 
-# Función de cuadrática de dos variables
 print('\n\n---------------------------------------------------')
-print('Minimizar la función: func_1v de 1 variable\n')
-#psoeval_general(f.func_1v,1,-1)
-#gaaeval_general(f.func_1v,1,-1)
-
-
-# Función de cuadrática de dos variables
-print('\n\n---------------------------------------------------')
-print('Minimizar la función: func_2v de 2 variables\n')
-#psoeval_general(f.func_2v,2,-1)
-#gaaeval_general(f.func_2v,2,-1)
-
-# Función de cuadrática de dos variables
-print('\n\n---------------------------------------------------')
-print('Optimizar función de markowitz para 3 activos\n')
-#psoeval_general(f.markowitz,3,-1)
-#gaaeval_general(f.markowitz,3,-1)
-
-# Función de cuadrática de dos variables
-print('\n\n---------------------------------------------------')
-print('Optimizar función de markowitz para 3 activos\n')
+print('Resolver función 3 de examen \n')
 psoeval_general(f.f3,2,-1)
+print('\n\n---------------------------------------------------')
+print('Resolver función 4 de examen \n')
 psoeval_general(f.f4,5,-1)
-#gaaeval_general(f.f3,2,-1)
 
-'''
-# Función de tarea01 ejercicio 01
-print('\n\n---------------------------------------------------')
-print('Tarea ejercicio 01 tres variables: maximizar (func1_3v)\n')
-psoeval_general(f.func1_3v,3,1)
-gaaeval_general(f.func1_3v,3,1)
-
-# Función de tarea01 ejercicio 02
-print('\n\n---------------------------------------------------')
-print('Tarea ejercicio 02 tres variables: minimizar (func2_3v)\n')
-psoeval_general(f.func2_3v,3,-1)
-gaaeval_general(f.func2_3v,3,-1)
-
-'''
