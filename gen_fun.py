@@ -21,11 +21,46 @@ def f4(x):
     # función de gasto
     z = xm.dot(c)
     
+    # reestric.
     nn = xm.shape[0]
     r = np.zeros((nn,10))
+    alpha = 10000
     
+    if len(a) == 1:
+        # 0
+        index = (-X[0] + 48 > 0)
+        r[:,0] = alpha * index * (-X[0] + 48)
+        # 1
+        index = (-X[1] - X[0] + 79 > 0)
+        r[:,1] = alpha * index * (-X[1] - X[0] + 79)
+        # 2
+        index = (65 - X[0] - X[1] > 0)
+        r[:,2] = alpha * index * (65 - X[0] - X[1])
+        #3 
+        index = (87 - X[0] - X[1] - X[2] > 0)
+        r[:,3] = alpha * index * (87 - X[0] - X[1] - X[2])
+        # 4
+        index = (64 - X[1] - X[2] > 0)
+        r[:,4] = alpha * index * (64 - X[1] - X[2])
+        # 5
+        index = (73 - X[2] - X[3] > 0)
+        r[:,5] = alpha * index * (73 - X[2] - X[3])
+        #6 
+        index = (82 - X[2] - X[3] > 0)
+        r[:,6] = alpha * index * (82 - X[2] - X[3])
+        #7
+        index = (43 - X[3] > 0)
+        r[:,7] = alpha * index * (43 - X[3])
+        #8
+        index = (52 - X[3] - X[4] > 0)
+        r[:,8] = alpha * index * (52 - X[3] - X[4])
+        #9
+        index = (15 - X[4] > 0)
+        r[:,9] = alpha * index * (15 - X[4])
     
-    return z
+    re = np.sum(r, axis = 1)
+    z = np.array(z.T) + re
+    return z[0]
 
 # Función ej3 (2 variables)
 def f3(x):

@@ -153,7 +153,8 @@ print('Optimizar función de markowitz para 3 activos\n')
 print('\n\n---------------------------------------------------')
 print('Optimizar función de markowitz para 3 activos\n')
 psoeval_general(f.f3,2,-1)
-gaaeval_general(f.f3,2,-1)
+psoeval_general(f.f4,5,-1)
+#gaaeval_general(f.f3,2,-1)
 
 '''
 # Función de tarea01 ejercicio 01
