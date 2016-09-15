@@ -100,7 +100,7 @@ def gaaeval_general(func, nvar, desc):
 def psoeval_general(func, nvar, desc):
     print('PSO METHOD \n')    
     # número de partículas
-    npart = 500
+    npart = 1500
     # parámetros de movimiento
     c1 = 0.01; c2 = 0.01
     # evalucación y slgorítmos pso
@@ -116,15 +116,15 @@ def psoeval_general(func, nvar, desc):
     
     print('El',st,'econtrado es de',fpg, 'en la región {x0,x1,...,xn} :',string)
     
-    if nvar == 1:
-        x = np.arange(-100,100,0.5)
-        plt.plot(x,func([x]),'b-',prtl_mg,fpg,'ro')
-        plt.title('Function to optimize and particles')
-        plt.xlabel('Particles')
-        plt.ylabel('Value')
-        plt.show()
-    if nvar == 2:
-        plt.plot(prtl[0],prtl[1],'rx',prtl_mg[0],prtl_mg[1],'ro',0,0,'b.')
+    #if nvar == 1:
+    #    x = np.arange(-100,100,0.5)
+    #    plt.plot(x,func([x]),'b-',prtl_mg,fpg,'ro')
+    #    plt.title('Function to optimize and particles')
+    #    plt.xlabel('Particles')
+    #    plt.ylabel('Value')
+    #    plt.show()
+    #if nvar == 2:
+    #    plt.plot(prtl[0],prtl[1],'rx',prtl_mg[0],prtl_mg[1],'ro',0,0,'b.')
         
     return 1
     

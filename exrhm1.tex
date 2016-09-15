@@ -1,31 +1,45 @@
 \documentclass[11p]{report}
+\usepackage{amsmath}
 \usepackage{fancyhdr}
 
-\pagestyle{headings}
+\pagestyle{fancy}
+%\parident 0em
+\parskip 2ex
 
-\setlenght{\parskip}{\baselineskip}
-\setlenght{\parindent}{24pt}
+%\setlenght{\parskip}{\baselineskip}
+%\setlenght{\parindent}{24pt}
 %\setlenght{\baselineskip}{24pt}
 
 \begin{document}
 
-\title{Examen I}
-\author{Rodrigo Hern\'andez Mota}
+\parindent 0em
+
+\hspace{0.7cm}
+
+\title{\textbf{Examen I}}
+\author{Rodrigo Hern\'andez Mota (if 693056)}
 
 \maketitle
 
 \section{I}
-El algor\'itmo gen\'etico permite optimizar una funci\'on con un m\'etodo heur\'istico...
+El algor\'itmo gen\'etico permite optimizar una funci\'on de la forma $F(X)$, en donde $X = {x_1,...,x_n}$ con un m\'etodo heur\'istico que pretende simular el sistema de recombinaci\'on gen\'etico biol\'ogico. 
 \subsection{Inicializaci\'on}
+Dada una regi\'on de busqueda se inicializa la poblaci\'on de 'm' pobladores. Los pobladores son distintos valores $X$ para los cuales la funci\'on puede ser evaluada.
 \subsection{Selecci\'on}
+Se eval\'ua el desempeño de cada poblador mediante el valor resultante de la funci'on $F$. Dependiendo si el objetivo es maximizar o minimizar, se seleccionan los pobladores m\'as aptos. Se deber\'an escoger al menos dos para asegurar la recombinaci\'on gen\'etica. 
 \subsection{Cruzamiento}
-\subsection{Mutaci\'on}
+Habiendo seleccionado los mejores pobladores, se utiliza su c\'odigo gen\'etico para generar nuevos pobladores (nueva generaci\'on). En esta generaci\'on estan los mejores pobladores anteriores y los nuevos resultantes del cruzamiento.
 
+Existen diferentes m\'etodos de cruzamiento.   
+\subsection{Mutaci\'on}
+Para evitar la degeneraci\'on de la poblaci\'on se establece un factor de mutaci\'on. Parte de la nueva generaci\'on sufre alteraciones en su c\'odigo gen\'etico (generalmente representado como un numero en binario). 
+
+Los pasos a partir de la inicializaci\'on son repetidos de forma iterativa. De esta forma la poblaci\'on mejora (o intenta mejorar) su desempeño generaci\'on tras generaci\'on. 
 
 \section{II}
 Sea $F$ una funci\'on de $x_1, x_2$ en donde $min F(x_1, x_2)$ se encuentra en los intervaloes $1 \leq x_1 2$ y $-2 \leq x_2 \leq 2$, entonces si se requiere que el algor\'itmo pueda buscar en intervalos de $2.44x10^{-4}$, el n\'umero de bits necesarios son: 14.
 
-Declaramos $\Delta$ como una variable para determinar el "salto" que se dar\'a cuando se pasa de un entero (determinado por los bits) al espacio de b\'usqueda real. 
+Declaramos $\Delta$ como una variable para determinar el "salto" o cambio que se dar\'a debido a la divisi\'on o discretizaci\'on  (determinado por los bits) del espacio de b\'usqueda real. 
 
 $$
 \Delta = \frac{ls - li}{2^n - 1}
@@ -61,12 +75,12 @@ n = 14
 $$
 
 \section{III}
-Sea la $F$ la función por partes:
+Sea la $F$ la funci\'on por partes:
 
 $$
 \begin{displaymath}
   F(x_1,x_2) = \left\{
-    \begin{array}{lr}
+    \begin{array}{ll}
       x_1^2 + x_2^2 & : x_1 + x_2 \geq 1 \\
       -10(x_1 + x_2)+20 & : x_1 + x_2 < 1
     \end{array}

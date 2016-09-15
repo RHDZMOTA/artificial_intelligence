@@ -21,7 +21,7 @@ def algo_pso(npart, c1, c2, func, nvar, desc):
     desc = (-1) * desc
 
     # numero de interaciones de búsqueda
-    niter = 1000
+    niter = 2000
 
     # inicialización del enjambre
     prtl = []    
