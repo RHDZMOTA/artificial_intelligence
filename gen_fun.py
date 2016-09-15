@@ -5,6 +5,28 @@
 
 import numpy as np
 
+def f4(x):
+    # determine if x is data for gen.algo (==2) or gen.pso
+    a = np.shape(x[0])
+    if len(a) > 1: X = [x[i][0] for i in range(len(x))]
+    else: X = x
+
+    xm = np.matrix(X)
+    xm = xm.T
+    
+    # costo 
+    c = np.matrix([170, 160, 175, 180, 195])
+    c = c.T
+    
+    # función de gasto
+    z = xm.dot(c)
+    
+    nn = xm.shape[0]
+    r = np.zeros((nn,10))
+    
+    
+    return z
+
 # Función ej3 (2 variables)
 def f3(x):
     # determine if x is data for gen.algo (==2) or gen.pso
