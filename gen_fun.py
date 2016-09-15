@@ -5,6 +5,42 @@
 
 import numpy as np
 
+# Función ej3 (2 variables)
+def f3(x):
+    # determine if x is data for gen.algo (==2) or gen.pso
+    a = np.shape(x[0])
+    if len(a) > 1: X = [x[i][0] for i in range(len(x))]
+    else: X = x
+    
+    # comienza fun
+    z = []
+    
+    s = np.size(X[0])
+    rest1 = np.zeros(s)
+    rest2 = np.zeros(s)
+    for i,j in zip(X[0], X[1]):
+        if i+j >= 1:
+            z.append(i**2 + j**2)
+        else:
+            z.append(-10*(i+j)+20)
+    
+    a1 = 10000
+    a2 = 10000
+    
+    if len(a) == 1:
+        index = (-X[0]-1>= 0)
+        rest1[index] = -X[0][index]-1
+        index = (-X[1]-1>= 0)
+        rest2[index] = -X[1][index]-1
+    
+    
+        
+    return z + a1 * rest1 + a2 * rest2
+    
+    
+    
+    
+
 # Función y = x^1
 def func_1v(x):
     # determine if x is data for gen.algo (==2) or gen.pso

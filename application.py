@@ -100,7 +100,7 @@ def gaaeval_general(func, nvar, desc):
 def psoeval_general(func, nvar, desc):
     print('PSO METHOD \n')    
     # número de partículas
-    npart = 1000
+    npart = 500
     # parámetros de movimiento
     c1 = 0.01; c2 = 0.01
     # evalucación y slgorítmos pso
@@ -146,8 +146,14 @@ print('Minimizar la función: func_2v de 2 variables\n')
 # Función de cuadrática de dos variables
 print('\n\n---------------------------------------------------')
 print('Optimizar función de markowitz para 3 activos\n')
-psoeval_general(f.markowitz,3,-1)
-gaaeval_general(f.markowitz,3,-1)
+#psoeval_general(f.markowitz,3,-1)
+#gaaeval_general(f.markowitz,3,-1)
+
+# Función de cuadrática de dos variables
+print('\n\n---------------------------------------------------')
+print('Optimizar función de markowitz para 3 activos\n')
+psoeval_general(f.f3,2,-1)
+gaaeval_general(f.f3,2,-1)
 
 '''
 # Función de tarea01 ejercicio 01
