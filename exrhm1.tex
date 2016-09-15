@@ -2,7 +2,10 @@
 \usepackage{fancyhdr}
 
 \pagestyle{headings}
-\setlenght{\baselineskip}{24pt}
+
+\setlenght{\parskip}{\baselineskip}
+\setlenght{\parindent}{24pt}
+%\setlenght{\baselineskip}{24pt}
 
 \begin{document}
 
@@ -20,10 +23,45 @@ El algor\'itmo gen\'etico permite optimizar una funci\'on con un m\'etodo heur\'
 
 
 \section{II}
-Sea $F$ una funci\'on de $x_1, x_2$ en donde $min F(x_1, x_2)$ se encuentra en los intervaloes $1 \leq x_1 2$ y $-2 \leq x_2 \leq 2$, entonces si se requiere que el algor\'itmo pueda buscar en intervalos de $2.44x10^{-4}$, el n\'umero de bits requerido es: 14.
+Sea $F$ una funci\'on de $x_1, x_2$ en donde $min F(x_1, x_2)$ se encuentra en los intervaloes $1 \leq x_1 2$ y $-2 \leq x_2 \leq 2$, entonces si se requiere que el algor\'itmo pueda buscar en intervalos de $2.44x10^{-4}$, el n\'umero de bits necesarios son: 14.
 
+Declaramos $\Delta$ como una variable para determinar el "salto" que se dar\'a cuando se pasa de un entero (determinado por los bits) al espacio de b\'usqueda real. 
+
+$$
+\Delta = \frac{ls - li}{2^n - 1}
+$$
+
+En donde $ls, li$ son los l\'imites superior e inferior y $n$ es el numero de bits. 
+Entonces calculamos delta para cada variable:
+
+$$
+\Delta_1 = \frac{1}{m}
+$$
+
+$$
+\Delta_2 = \frac{4}{m}
+$$
+
+Debido a que $1/m < 4/m$ entonces para asegurar que el algor\'itmo pueda buscar en (al menos) en el intervalo deseado; se calcula $m$ de la siguente forma:
+
+$$
+m = \frac{4}{\Delta_2} = \frac{4}{2.44x10^{-4}} = 16393.4426
+$$
+
+Despejando $n$ y sustituyendo $m$ en $2^n - 1 = m$ tenemos:
+
+$$
+n = \log_2{m+1} = \log_2{16394.4426} = 14.000919
+$$
+
+Debido a que el "numero de bits" en pr\'actica debe ser entero; se rendondea al enterno más cercano;
+
+$$
+n = 14
+$$
 
 \section{III}
+
 
 \section{IV}
 
