@@ -21,7 +21,7 @@ def algo_pso(npart, c1, c2, func, nvar, desc):
     desc = (-1) * desc
 
     # numero de interaciones de búsqueda
-    niter = 2000
+    niter = 5000
 
     # inicialización del enjambre
     prtl = []    
@@ -36,6 +36,7 @@ def algo_pso(npart, c1, c2, func, nvar, desc):
     # Mejor global inicial y desempeño
     prtl_mg = [0] * nvar
     fpg = ini;
+    lfpg = []
 
     # velocidad
     prtl_v = []
@@ -68,13 +69,16 @@ def algo_pso(npart, c1, c2, func, nvar, desc):
         for j in range(nvar):
             prtl_v[j] = prtl_v[j] + c1 * np.random.rand(npart) * (prtl_mg[j] - prtl[j]) + c2 * np.random.rand(npart) * (prtl_ml[j] - prtl[j])
             prtl[j]   = prtl[j] + prtl_v[j]
+        lfpg.append(fpg)
 
     
 
     fp = func(prtl)   
-
+    '''
+    import matplotlib.pyplot as plt
+    plt.plot(lfpg)
+    '''
     
-
     return prtl_mg, desc * fpg, fp, prtl
 
     

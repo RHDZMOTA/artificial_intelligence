@@ -177,10 +177,13 @@ def markowitz_1(X):
 
     # download data and calc. parameters
     import findata as fd
-    acc = ["GRUMAB.MX","BIMBOA.MX","SORIANAB.MX"]
+    n_acc, temp = np.shape(X)
+    acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX", "BIMBOA.MX", "SANMEXB.MX", "ALSEA.MX"]
+    acc = acc[:n_acc]
     price, returns = fd.download(acc)
     pa, rst, cst = fd.parameters(price, returns)
     
+    '''    
     # conditional for genetic algo... 
     aa = np.shape(X[0])
     if len(aa) > 1:
@@ -188,6 +191,7 @@ def markowitz_1(X):
         for i in range(1,len(X)):
             aux = np.hstack([aux,X[i]])
         X = np.transpose(aux)
+    '''
         
     # use part as matrix
     X = np.transpose(np.matrix(X))
@@ -202,22 +206,59 @@ def markowitz_1(X):
     riskp = np.transpose(riskp[te,te])
     
 
-    return np.array(rp), np.array(riskp)
+    return np.array(rp), np.array(riskp), np.array(X.T)
 
-def markowitz_2(rp, riskp):
+def markowitz_2(rp, riskp, X):
     '''
     This function takes the two results of markowitz and...
+    
+    import matplotlib.pyplot as plt
+    
+    plt.plot(riskp, rp, 'b.')
+    plt.title('Markowitz simulation')
+    plt.xlabel('Risk (sd)')
+    plt.ylabel('Returns')
+    plt.show()
     '''
-    z = -rp + riskp
-    return z
+    
+    b1 = 10
+    b2 = 1
+    alpha = 1000
+    z = -b1*rp + b2*riskp
+    
+    i,j = X.shape
+    rest = np.zeros(j)
+    
+    
+    for act in X:
+        # x > 0
+        rest = rest + alpha * np.abs(act) * (act < 0)
+        # x < 1
+        rest = rest + alpha * np.abs(act) * (act > 1)
+    
+    
+    X2 = np.transpose(np.matrix(X))
+    X2 = np.array(X2)
+    
+    aux = []
+    for act2 in X2:
+        # sum x == 1
+        aux.append(alpha * np.abs(np.sum(act2) - 1))
+    rest = rest + np.array(aux)
+    
+    z = z.T + rest
+    
+    return z[0]
 
 def markowitz(x):
     # determine if x is data for gen.algo (==2) or gen.pso
+    '''
     a = np.shape(x[0])
     if len(a) > 1: X = [x[i][0] for i in range(len(x))]
     else: X = x
-    
-    rp, riskp = markowitz_1(X)
-    z = markowitz_2(rp, riskp)
+    '''
+    X = x
+    rp, riskp, X = markowitz_1(X)
+    z = markowitz_2(rp, riskp, X)
     
     return z

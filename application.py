@@ -19,7 +19,7 @@ import func_pso as pso
 import gen_fun as f
 
 # %% Función para evaluación general 
-
+"""
 def gaaeval_general(func, nvar, desc):
     '''
     Evaluación genérica de funciones para algorítmo genético
@@ -94,13 +94,13 @@ def gaaeval_general(func, nvar, desc):
         plt.show()
     
     return 1
-
+"""
 #%% PSO
 
 def psoeval_general(func, nvar, desc):
     print('PSO METHOD \n')    
     # número de partículas
-    npart = 1500
+    npart = 4000
     # parámetros de movimiento
     c1 = 0.01; c2 = 0.01
     # evalucación y slgorítmos pso
@@ -131,9 +131,8 @@ def psoeval_general(func, nvar, desc):
 # %% aplicación
 
 print('\n\n---------------------------------------------------')
-print('Resolver función 3 de examen \n')
-psoeval_general(f.f3,2,-1)
-print('\n\n---------------------------------------------------')
-print('Resolver función 4 de examen \n')
-psoeval_general(f.f4,5,-1)
+print('Portafolio markowitz \n')
+psoeval_general(f.markowitz,6,-1)
+#gaaeval_general(f.markowitz,3,-1)
+
 
