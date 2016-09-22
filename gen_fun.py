@@ -206,7 +206,7 @@ def markowitz_1(X):
     riskp = np.transpose(riskp[te,te])
     
 
-    return np.array(rp), np.array(riskp), np.array(X.T)
+    return np.array(rp), np.array(riskp), np.array(X.T), pa
 
 def markowitz_2(rp, riskp, X):
     '''
@@ -221,9 +221,10 @@ def markowitz_2(rp, riskp, X):
     plt.show()
     '''
     
-    b1 = 10
-    b2 = 1
-    alpha = 1000
+    b1 = 10000
+    b2 = 100000
+    alpha1 = 1000
+    alpha2 = 50
     z = -b1*rp + b2*riskp
     
     i,j = X.shape
@@ -232,9 +233,9 @@ def markowitz_2(rp, riskp, X):
     
     for act in X:
         # x > 0
-        rest = rest + alpha * np.abs(act) * (act < 0)
+        rest = rest + alpha1 * np.abs(act) * (act < 0)
         # x < 1
-        rest = rest + alpha * np.abs(act) * (act > 1)
+        rest = rest + alpha1 * np.abs(act) * (act > 1)
     
     
     X2 = np.transpose(np.matrix(X))
@@ -243,7 +244,7 @@ def markowitz_2(rp, riskp, X):
     aux = []
     for act2 in X2:
         # sum x == 1
-        aux.append(alpha * np.abs(np.sum(act2) - 1))
+        aux.append(alpha2 * np.abs(np.sum(act2) - 1))
     rest = rest + np.array(aux)
     
     z = z.T + rest
@@ -258,7 +259,7 @@ def markowitz(x):
     else: X = x
     '''
     X = x
-    rp, riskp, X = markowitz_1(X)
+    rp, riskp, X, pa = markowitz_1(X)
     z = markowitz_2(rp, riskp, X)
     
     return z

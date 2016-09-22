@@ -23,8 +23,8 @@ def download(acc):
     '''
     
     # define starting and ending time     
-    start = dt.datetime(2016,1,1)
-    end = dt.datetime.now()
+    start = dt.datetime(2014,1,1)
+    end = dt.datetime(2016,1,20) #dt.datetime.now()
     
     # determine id...
     lid = []
@@ -68,7 +68,7 @@ def parameters(price, returns):
     cst = np.matrix(np.cov(returns, rowvar=False))
     
     # participation of stocks in portfolio (for markowitz)
-    npart = 1000
+    npart = 5000
     ntemp, nst = np.shape(returns)   
     part = np.random.rand(npart,nst)
     spart = np.sum(part, 1)
@@ -95,9 +95,10 @@ def markowitz(part, rst, cst):
 
     return np.array(rp), np.array(riskp)
 
-'''
+
 # Example 
-acc = ["GRUMAB.MX","BIMBOA.MX","SORIANAB.MX"]
+#acc = ["GRUMAB.MX","BIMBOA.MX","SORIANAB.MX"]
+acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX","BIMBOA.MX", "SANMEXB.MX", "ALSEA.MX"]
 price, returns = download(acc)
 part, rst, cst = parameters(price, returns)
 rp, riskp = markowitz(part, rst, cst)
@@ -110,4 +111,4 @@ plt.show()
 
 if 'm' in globals():
     print('hey')
-'''
+
