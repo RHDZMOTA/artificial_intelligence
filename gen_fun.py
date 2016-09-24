@@ -263,3 +263,120 @@ def markowitz(x):
     z = markowitz_2(rp, riskp, X)
     
     return z
+    
+def simtrading_prom(data,nmovil,cash0,accion0,com):
+    #nmovil = 10; #numero de dias del promedio movil
+    #cash0 = 10000; #dinero disponible para comprar acciones
+    #accion0 = 0; #numero de acciones disponibles para vender
+    #com = 0.0029; # porcentaje de cobro de comision por operacion
+    ndata,temp = np.shape(data); #numero de datos disponibles para simular
+    promovil = np.zeros((ndata,1)); # iniciar el vector donde se guardara el promedio movil
+    numaccion = np.ones((ndata+1,1))*accion0; # iniciar el vector donde se guardara el numero de acciones
+    cash = np.ones((ndata+1,1))*cash0; # iniciar el vector donde se guardara el numero de acciones
+    balance = np.ones((ndata+1,1))*(cash+accion0*data[nmovil-1,1]);
+    
+    for k in range(nmovil,ndata):
+        #calculo del promedio movil
+        promovil[k,0] = np.mean(data[k-nmovil:k,1]);
+        
+        # simulacion de compra y venta
+        if data[k,1]>=promovil[k,0]:
+            #compra
+            temp = np.floor(cash[k,0]/(data[k,1]*(1+com))); #acciones para que me alcanzan
+            numaccion[k+1,0] = numaccion[k,0]+temp; # actualizo el numero de acciones
+            cash[k+1,0] = cash[k,0]-temp*data[k,1]*(1+com); #actualizo el cash
+            balance[k+1,0] = cash[k+1,0]+numaccion[k+1,0]*data[k,1];
+        else:
+            #vende
+            numaccion[k+1,0] = 0;
+            cash[k+1,0] = cash[k,0]+numaccion[k,0]*data[k,1]*(1-com);
+            balance[k+1,0] = cash[k+1,0]+numaccion[k+1,0]*data[k,1];
+    
+    # La funcion regresa el promedio movil, el balance de la cuenta simulada,
+    # el comportamiento del cash de la cuenta y el comportamiento de las acciones
+    return promovil,balance,cash,numaccion
+
+def prom_mov(x,v):
+    
+    X = x
+    cash_tot = 1000000    
+    
+    import findata as fd
+    n_acc, temp = np.shape(X)
+    acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX", "BIMBOA.MX", "SANMEXB.MX", "ALSEA.MX"]
+    acc = acc[:n_acc]
+    price, returns = fd.download(acc)
+    pa, rst, cst = fd.parameters(price, returns)
+    
+    X = np.transpose(np.matrix(x))
+    
+    #Uso de la funcion
+    nmovil = v; #numero de dias del promedio movil
+    accion0 = 0; #numero de acciones disponibles para vender
+    com = 0.0029; # porcentaje de cobro de comision por operacion
+    rport = np.array([])
+    sigma_port = np.array([])
+    for i in range(np.shape(x)[1]):
+        r_ind = []
+        sigma_ind = []
+        
+        for j in range(np.shape(x)[0]):
+            
+            pricegrum = price.values[:,j];
+            ndata = np.size(pricegrum);
+            data = np.reshape(pricegrum,(ndata,1));
+            data = np.append(np.reshape(np.arange(0,ndata),(ndata,1)),data,axis=1);
+        
+
+            cash0 = cash_tot * x[j][i] #dinero disponible para comprar acciones
+            promovil,balance,cash,numaccion = simtrading_prom(data,nmovil,cash0,accion0,com);
+            
+            #calculo del rendimiento promedio del balance final
+            rend = (balance[nmovil+1:ndata]/balance[nmovil:ndata-1])-1;
+            r_ind.append(np.mean(rend))
+            sigma_ind.append(np.std(rend))
+        
+        x_reng = X[i,:]
+        r_reng = np.matrix(r_ind).T
+        sigma_reng = np.matrix(sigma_ind).T
+        sigma_reng = np.power(sigma_reng,2)
+        x_reng2 = np.power(x_reng,2)
+        
+        rport = np.append(rport, np.array(x_reng.dot(r_reng)))
+        sigma_port = np.append(sigma_port, np.array(x_reng2.dot(sigma_reng)))
+        
+    X = np.array(X.T)
+        
+    # reestric
+        
+    b1 = 10000
+    b2 = 100000
+    alpha1 = 1000
+    alpha2 = 50
+    
+    
+    z = -b1*rport + b2*sigma_port
+    
+    i,j = X.shape
+    rest = np.zeros(j)
+    
+    
+    for act in X:
+        # x > 0
+        rest = rest + alpha1 * np.abs(act) * (act < 0)
+        # x < 1
+        rest = rest + alpha1 * np.abs(act) * (act > 1)
+    
+    
+    X2 = np.transpose(np.matrix(X))
+    X2 = np.array(X2)
+    
+    aux = []
+    for act2 in X2:
+        # sum x == 1
+        aux.append(alpha2 * np.abs(np.sum(act2) - 1))
+    rest = rest + np.array(aux)
+    
+    z = z.T + rest
+        
+    return z

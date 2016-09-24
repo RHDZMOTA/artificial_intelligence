@@ -95,11 +95,32 @@ def markowitz(part, rst, cst):
 
     return np.array(rp), np.array(riskp)
 
+def graf_prec(price,returns, acc):
+    import matplotlib
+    matplotlib.style.use('ggplot')
+    plt.figure
+    price.plot.line()
+    plt.title('Valor de activos; general')
+    plt.ylabel('Valor')
+    plt.show()
+    for i in acc:
+        plt.figure
+        plt.subplot(3,1,1)
+        price[i].plot.line()
+        plt.title('Valor del activo: {}'.format(i))
+        plt.ylabel('Valor')        
+        plt.subplot(3,1,3)
+        plt.bar(returns[i].index,returns[i].values, color = 'black')
+        plt.title('\nRendimiento')
+        plt.tick_params(axis='x',which='both',bottom='off',top='off',labelbottom='off')
+        plt.show()
+    return 0
 
+'''
 # Example 
-#acc = ["GRUMAB.MX","BIMBOA.MX","SORIANAB.MX"]
 acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX","BIMBOA.MX", "SANMEXB.MX", "ALSEA.MX"]
 price, returns = download(acc)
+graf_prec(price,returns, acc)
 part, rst, cst = parameters(price, returns)
 rp, riskp = markowitz(part, rst, cst)
 
@@ -108,7 +129,5 @@ plt.title('Markowitz simulation')
 plt.xlabel('Risk (sd)')
 plt.ylabel('Returns')
 plt.show()
-
-if 'm' in globals():
-    print('hey')
+'''
 
