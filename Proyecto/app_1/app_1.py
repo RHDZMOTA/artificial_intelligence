@@ -8,11 +8,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import func_pso as pso
 import gen_fun as f
-#import findata as fd
+import findata as fd
 
 # %% función para evaluar 
 def psoeval_general(func, nvar, desc):
-    print('EVALUATING PSO ALGORITHM... \n')    
+    print('\n\nEvaluating pso-algorithm... \n')    
     # número de partículas
     npart = 2000
     # parámetros de movimiento
@@ -34,9 +34,10 @@ def psoeval_general(func, nvar, desc):
     return prtl_mg
  
 # %% gráficos de acciones 
-#acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX","BIMBOA.MX", "SANMEXB.MX", "ALSEA.MX"]
-#price, returns = fd.download(acc)
-#fd.graf_prec(price,returns, acc)
+print('\nReading data and dependencies...')
+acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX","BIMBOA.MX", "SANMEXB.MX", "ALSEA.MX"]
+price, returns = fd.download(acc)
+fd.graf_prec(price,returns, acc)
    
 # %% Encontrar proporciones de activos utilizando PSO
 nact = 6
@@ -64,7 +65,7 @@ plt.ylabel('Rendimiento del portafolio')
 #f1.axes.get_yaxis().set_ticks([])
 plt.show(f1)
 
-print('\nDatos del portafolio seleccionado:\n')
+print('\n\nDatos del portafolio seleccionado:\n')
 print('\t Rendimiento: {}'.format(rp[0][0]))
 print('\t Riesgo: {}\n\n'.format(riskp[0][0]))
 

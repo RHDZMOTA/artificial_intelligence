@@ -70,6 +70,9 @@ def algo_pso(npart, c1, c2, func, nvar, desc):
             prtl_v[j] = prtl_v[j] + c1 * np.random.rand(npart) * (prtl_mg[j] - prtl[j]) + c2 * np.random.rand(npart) * (prtl_ml[j] - prtl[j])
             prtl[j]   = prtl[j] + prtl_v[j]
         lfpg.append(fpg)
+        
+        if ind%(niter/20) == 0:
+            print('Evaluation: {} %'.format(100*(k+1)/niter))
 
     
 

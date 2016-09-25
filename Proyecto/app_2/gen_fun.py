@@ -478,7 +478,7 @@ def prom_mov2(x,f,price, returns, re):
         b1 = 10000
         b2 = 100000
         alpha1 = 1000
-        alpha2 = 50
+        alpha2 = 1000
         
         
         z = -b1*rport + b2*sigma_port
@@ -590,7 +590,7 @@ def prom_mov3g(x,f,price, returns, re):
         b1 = 10000
         b2 = 100000
         alpha1 = 1000
-        alpha2 = 150
+        alpha2 = 1000
         
         
         z = -b1*rport + b2*sigma_port

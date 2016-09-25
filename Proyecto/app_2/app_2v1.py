@@ -196,7 +196,7 @@ def gen_algo(xmin, delta, nbits, npob, npadres, nvar, func, desc, met_cruz, pric
     nhijos  = npob - npadres;
     
     # Número de iteraciones e inicialización del promedio.
-    niter = 30;
+    niter = 50;
     yprom = np.zeros(niter);
     
     # Inicio de población en varialbe pobl
@@ -285,7 +285,7 @@ def func(pobl, price, returns):
 
 # %%Number assets for portfolio 
 
-nacci = 3
+nacci = 6
 nvar = nacci*2
 
 # %% Descarga de datos 
@@ -295,14 +295,14 @@ acc = acc[:nvar]# acc[:n_acc]
 price, returns = fd.download(acc)
 
 xmin = 1; xmax = 128; delta= xmin-xmax; nbits=7;
-npob = 20; npadres = 10;
-
+npob = 40; npadres = 12;
+desc = -1
 print('Running genetic algorithm optimization... \n\n')
-pobl, yp, yprom = gen_algo(xmin, delta, nbits, npob, npadres, nvar, func, -1, 3, price, returns)
+pobl, yp, yprom = gen_algo(xmin, delta, nbits, npob, npadres, nvar, func, desc, 3, price, returns)
 
 print('\nShowing Results: ')
 
-desc = -1
+
 
 #%%
 # BEFORE PRINTING THE RESULTS...
