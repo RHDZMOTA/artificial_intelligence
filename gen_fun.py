@@ -296,7 +296,7 @@ def simtrading_prom(data,nmovil,cash0,accion0,com):
     # el comportamiento del cash de la cuenta y el comportamiento de las acciones
     return promovil,balance,cash,numaccion
 
-def prom_mov(x,v):
+def prom_mov(x,f):
     
     X = x
     cash_tot = 1000000    
@@ -311,7 +311,7 @@ def prom_mov(x,v):
     X = np.transpose(np.matrix(x))
     
     #Uso de la funcion
-    nmovil = v; #numero de dias del promedio movil
+    #nmovil = v; #numero de dias del promedio movil
     accion0 = 0; #numero de acciones disponibles para vender
     com = 0.0029; # porcentaje de cobro de comision por operacion
     rport = np.array([])
@@ -321,7 +321,7 @@ def prom_mov(x,v):
         sigma_ind = []
         
         for j in range(np.shape(x)[0]):
-            
+            nmovil = f[j]
             pricegrum = price.values[:,j];
             ndata = np.size(pricegrum);
             data = np.reshape(pricegrum,(ndata,1));
