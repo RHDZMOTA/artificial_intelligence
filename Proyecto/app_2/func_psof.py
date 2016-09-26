@@ -70,6 +70,9 @@ def algo_psof(npart, c1, c2, func, nvar, desc, f, price, returns):
             prtl_v[j] = prtl_v[j] + c1 * np.random.rand(npart) * (prtl_mg[j] - prtl[j]) + c2 * np.random.rand(npart) * (prtl_ml[j] - prtl[j])
             prtl[j]   = prtl[j] + prtl_v[j]
         lfpg.append(fpg)
+        
+        if k%10 == 0:
+            print(100*k/niter,'%')
 
     
 

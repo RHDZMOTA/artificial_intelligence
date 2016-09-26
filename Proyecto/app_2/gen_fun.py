@@ -620,3 +620,92 @@ def prom_mov3g(x,f,price, returns, re):
         z = [rport, sigma_port]
         
     return z
+    
+    
+def prom_mov3(x,f,price, returns, re):
+    '''
+    re = {0, 1}, apply resstrictions (1), or not (0)
+    '''
+    X = x
+    cash_tot = 1000000    
+    
+    pa, rst, cst = fd.parameters(price, returns)
+    
+    X = np.transpose(np.matrix(x))
+    
+    #Uso de la funcion
+    #nmovil = v; #numero de dias del promedio movil
+    accion0 = 0; #numero de acciones disponibles para vender
+    com = 0.0029; # porcentaje de cobro de comision por operacion
+    rport = np.array([])
+    sigma_port = np.array([])
+    z = []
+    for i in range(np.shape(x)[1]):
+        r_ind = []
+        sigma_ind = []
+        
+        for j in range(np.shape(x)[0]):
+            nmovil = f[j]
+            pricegrum = price.values[:,j];
+            ndata = np.size(pricegrum);
+            data = np.reshape(pricegrum,(ndata,1));
+            data = np.append(np.reshape(np.arange(0,ndata),(ndata,1)),data,axis=1);
+        
+
+            cash0 = cash_tot * x[j][i] #dinero disponible para comprar acciones
+            promovil,balance,cash,numaccion = simtrading_prom(data,nmovil,cash0,accion0,com);
+            
+            #calculo del rendimiento promedio del balance final
+            rend = (balance[nmovil+1:ndata]/balance[nmovil:ndata-1])-1;
+            r_ind.append(np.mean(rend))
+            sigma_ind.append(np.std(rend))
+        
+        x_reng = X[i,:]
+        z.append(r_ind)
+        r_reng = np.matrix(r_ind).T
+        sigma_reng = np.matrix(sigma_ind).T
+        sigma_reng = np.power(sigma_reng,2)
+        x_reng2 = np.power(x_reng,2)
+        
+        rport = np.append(rport, np.array(x_reng.dot(r_reng)))
+        sigma_port = np.append(sigma_port, np.array(x_reng2.dot(sigma_reng)))
+    '''
+        
+    X = np.array(X.T)
+        
+    # reestric
+    if re == 1:
+        
+        b1 = 10000
+        b2 = 100000
+        alpha1 = 1000
+        alpha2 = 50
+        
+        
+        z = -b1*rport + b2*sigma_port
+        
+        i,j = X.shape
+        rest = np.zeros(j)
+        
+        
+        for act in X:
+            # x > 0
+            rest = rest + alpha1 * np.abs(act) * (act < 0)
+            # x < 1
+            rest = rest + alpha1 * np.abs(act) * (act > 1)
+        
+        
+        X2 = np.transpose(np.matrix(X))
+        X2 = np.array(X2)
+        
+        aux = []
+        for act2 in X2:
+            # sum x == 1
+            aux.append(alpha2 * np.abs(np.sum(act2) - 1))
+        rest = rest + np.array(aux)
+        
+        z = z.T + rest
+    else:
+        z = [rport, sigma_port]
+        '''
+    return z

@@ -25,7 +25,7 @@ import findata as fd
 
 # %%Number assets for portfolio 
 
-nvar = 3
+nvar = 6
 
 # %% Descarga de datos 
 acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX","BIMBOA.MX", "SANMEXB.MX", "ALSEA.MX"]
@@ -33,18 +33,43 @@ acc = ["GFNORTEO.MX","LIVEPOLC-1.MX","HERDEZ.MX","BIMBOA.MX", "SANMEXB.MX", "ALS
 acc = acc[:nvar]# acc[:n_acc]
 price, returns = fd.download(acc)
 
+npart = 1
+# %% determinar mejor ventana
+
+reg = {}
+prtl = []    
+for j in range(nvar):
+    prtl.append(np.random.rand(npart))
+for i in range(1,128):
+
+    
+    reg[i] = fu.prom_mov3(prtl,[i]*nvar,price, returns, 0)
+#print(reg[100])  
+# escoger mejor ventana por activo
+rega = {}
+for j in range(nvar):
+    rega[j] = [0, -float('inf')]
+for i in range(1, 128):
+    for j in range(6):
+        if rega[j][1] < reg[i][0][j]:
+            rega[j] = [i, reg[i][0][j]]
+
+f = [rega[i][0] for i in range(nvar)]
+
+print('\n\nVentanas:\n' ,f)
+# prom_mov3(prtl,[1]*6,price, returns, 0)
 
 # %% Función para evaluar PSO
 
 def psoeval_general(nvar, desc, f, price, returns):
-    print('EVALUATING PSO ALGORITHM... \n')    
+    print('\n\nEVALUATING PSO ALGORITHM... \n')    
     # número de partículas
-    npart = 100
+    npart = 50
     # parámetros de movimiento
     c1 = 0.01; c2 = 0.01
     # evalucación y slgorítmos pso
     prtl_mg, fpg, fp, prtl = pso.algo_psof(npart, c1, c2, fu.prom_mov, nvar, desc, f, price, returns)
-    print('RESULTS: \n\n')
+    print('\n RESULTS: \n\n')
     # mostrar resultados. 
     st = 'mínimo'
     if desc == 1: st = 'máximo'
@@ -57,7 +82,7 @@ def psoeval_general(nvar, desc, f, price, returns):
     
     
     return prtl_mg
-
+'''
 def h(x, price, returns):
     a = np.shape(x[0])
     if len(a) > 1: X = [x[i][0] for i in range(len(x))]
@@ -79,10 +104,20 @@ def h(x, price, returns):
 xmin = 1; xmax = 128; delta= xmin-xmax; nbits=7;
 npob = 10; npadres = 4;
 pobl, yp, yprom = ga.gen_algo(xmin, delta, nbits, npob, npadres, nvar, psoeval_general, 1, 3)    
+'''
 
-#psoeval_general(3, -1, [10,20,30], price, returns)
 
+prtl_mg = psoeval_general(6, -1, f, price, returns)
 
+print('\n Evaluating portfolio: \n')
+mf = np.matrix(f)
+mprtl_mg = np.matrix(prtl_mg)
+r, s = fu.prom_mov3g(mprtl_mg,mf,price, returns,0)
+
+print('\n\nReturn: {}'.format(r))
+print('Standard Deviation: {}'.format(s))
+
+print('\n sum: {}'.format(sum(prtl_mg)))
 
 
     
